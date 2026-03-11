@@ -1,0 +1,42 @@
+﻿@model WebLinkKienOTO.Models.Product
+@{
+    ViewData["Title"] = "Product Details";
+}
+
+<section class="section-padding">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-12">
+                <div class="card shadow-lg rounded-4 overflow-hidden border-0">
+                    @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                    {
+                        <img src="@Model.ImageUrl" class="card-img-top" alt="@Model.Name" style="max-height: 400px; object-fit: cover;">
+                    }
+                    else
+                    {
+                        <div class="card-img-top d-flex justify-content-center align-items-center" style="height: 300px; background: linear-gradient(135deg, #6c5ce7 0%, #ff7675 100%);">
+                            <i class="bi-box text-white" style="font-size: 6rem; opacity: 0.5;"></i>
+                        </div>
+                    }
+
+                    <div class="card-body p-5">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <h2 class="fw-bold mb-0 text-primary">@Model.Name</h2>
+                            <span class="badge bg-secondary rounded-pill fs-6 mt-1">ID: @Model.Id</span>
+                        </div>
+
+                        <h3 class="text-success fw-bold mb-4"><i class="bi-tag-fill me-2"></i>$@Model.Price</h3>
+
+                        <h5 class="fw-bold mt-4 mb-2 border-bottom pb-2">Description</h5>
+                        <p class="text-muted" style="line-height: 1.8; white-space: pre-wrap;">@Model.Description</p>
+
+                        <div class="d-flex justify-content-between align-items-center pt-4 mt-5">
+                            <a asp-action="Index" class="btn btn-outline-secondary rounded-pill px-4 fw-bold"><i class="bi-arrow-left me-1"></i> Back to List</a>
+                            <a asp-action="Update" asp-route-id="@Model.Id" class="custom-btn btn rounded-pill px-5"><i class="bi-pencil me-1"></i> Edit Product</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

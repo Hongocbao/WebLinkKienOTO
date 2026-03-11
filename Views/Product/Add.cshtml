@@ -1,0 +1,79 @@
+﻿@model WebLinkKienOTO.Models.Product
+@using Microsoft.AspNetCore.Mvc.Rendering
+@{
+    ViewData["Title"] = "Add Product";
+}
+
+<section class="section-padding">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-12">
+                <div class="custom-text-block shadow-lg rounded-4 p-5 bg-white border-top border-5 border-primary">
+                    <h2 class="mb-4 text-center">Add New <span>Product</span></h2>
+
+                    @* QUAN TRỌNG: enctype="multipart/form-data" để gửi file *@
+                    <form asp-action="Add" class="custom-form mt-4" enctype="multipart/form-data" method="post">
+                        <div asp-validation-summary="All" class="text-danger mb-4 fw-bold"></div>
+
+                        <div class="row">
+                            <div class="col-md-6 col-12 mb-4">
+                                <div class="form-group">
+                                    <label asp-for="Name" class="form-label text-muted fw-bold">Product Name</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bi-box custom-icon"></i></span>
+                                        <input asp-for="Name" class="form-control" placeholder="Enter product name..." />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 col-12 mb-4">
+                                <div class="form-group">
+                                    <label asp-for="Price" class="form-label text-muted fw-bold">Price ($)</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bi-cash custom-icon"></i></span>
+                                        <input asp-for="Price" class="form-control" placeholder="0.00" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 col-12 mb-4">
+                                <div class="form-group">
+                                    <label asp-for="CategoryId" class="form-label text-muted fw-bold">Category</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bi-tags custom-icon"></i></span>
+                                        <select asp-for="CategoryId" asp-items="ViewBag.Categories" class="form-select form-control">
+                                            <option value="">-- Select Category --</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 col-12 mb-4">
+                                <div class="form-group">
+                                    <label class="form-label text-muted fw-bold">Product Image</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bi-image custom-icon"></i></span>
+                                        @* Sửa name thành ImageFile để khớp với Controller *@
+                                        <input type="file" name="ImageFile" class="form-control" accept="image/*" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-5">
+                            <label asp-for="Description" class="form-label text-muted fw-bold">Description</label>
+                            <textarea asp-for="Description" class="form-control" rows="4" placeholder="Write a short description..."></textarea>
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center border-top pt-4">
+                            <a asp-action="Index" class="text-decoration-none text-muted fw-bold"><i class="bi-arrow-left me-1"></i> Back to List</a>
+                            <button type="submit" class="custom-btn btn px-5">Save Product</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,79 @@
+﻿@model IEnumerable<WebLinkKienOTO.Models.Product>
+@{
+    ViewData["Title"] = "Products List";
+}
+
+<section class="section-padding">
+    <div class="container">
+        <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+            <div>
+                <h2 class="mb-1 text-primary">Products List</h2>
+                <p class="text-muted">Manage all your products in one place</p>
+            </div>
+            <a asp-action="Add" class="custom-btn btn mt-3 mt-md-0 rounded-pill px-4">
+                <i class="bi-plus-circle me-1"></i> ADD NEW PRODUCT
+            </a>
+        </div>
+
+        <div class="row g-4">
+            @foreach (var product in Model)
+            {
+                <div class="col-lg-4 col-md-6 col-12">
+                    <div class="card border-0 shadow-sm rounded-4 h-100 overflow-hidden">
+
+                        @* PHẦN HIỂN THỊ ẢNH *@
+                        @if (!string.IsNullOrEmpty(product.ImageUrl))
+                        {
+                            <img src="@product.ImageUrl" class="card-img-top" alt="@product.Name" style="height: 250px; object-fit: cover;">
+                        }
+                        else
+                        {
+                            <div class="card-img-top d-flex justify-content-center align-items-center" style="height: 250px; background: linear-gradient(135deg, #6c5ce7 0%, #ff7675 100%);">
+                                <i class="bi-image text-white" style="font-size: 3rem; opacity: 0.5;"></i>
+                            </div>
+                        }
+
+                        <div class="card-body p-4 d-flex flex-column">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <h4 class="card-title fw-bold mb-0">@product.Name</h4>
+                                <span class="badge bg-secondary rounded-pill" style="font-size:0.7rem;">ID: @product.Id</span>
+                            </div>
+
+                            <p class="text-muted small mb-1">
+                                <i class="bi-tags me-1"></i> Category ID: @product.CategoryId
+                            </p>
+
+                            @* XỬ LÝ MÔ TẢ AN TOÀN *@
+                            <p class="text-muted small mb-3 flex-grow-1">
+                                @if (!string.IsNullOrEmpty(product.Description))
+                                {
+                                    @(product.Description.Length > 60 ? product.Description.Substring(0, 60) + "..." : product.Description)
+                                }
+                                else
+                                {
+                                    <i class="text-muted">No description available.</i>
+                                }
+                            </p>
+
+                            <h5 class="text-info fw-bold mb-4"><i class="bi-tag-fill me-1"></i>$@product.Price</h5>
+
+                            <div class="mt-auto">
+                                <a asp-action="Display" asp-route-id="@product.Id" class="btn btn-info text-white fw-bold w-100 rounded-pill mb-2 shadow-sm">
+                                    <i class="bi-eye me-1"></i> VIEW DETAILS
+                                </a>
+                                <div class="d-flex gap-2">
+                                    <a asp-action="Update" asp-route-id="@product.Id" class="btn btn-outline-success fw-bold flex-fill rounded-pill">
+                                        <i class="bi-pencil me-1"></i> EDIT
+                                    </a>
+                                    <a asp-action="Delete" asp-route-id="@product.Id" class="btn btn-outline-danger fw-bold flex-fill rounded-pill">
+                                        <i class="bi-trash me-1"></i> DELETE
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>

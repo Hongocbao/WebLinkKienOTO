@@ -1,0 +1,61 @@
+﻿@model WebLinkKienOTO.Models.Product
+@{
+    ViewData["Title"] = "Edit Product";
+}
+
+<section class="section-padding">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-12">
+                <div class="custom-text-block shadow-lg rounded-4 p-5 bg-white border-top border-5 border-warning">
+                    <h2 class="mb-4 text-center fw-bold">Edit Product</h2>
+
+                    <form asp-action="Update" method="post" enctype="multipart/form-data">
+                        @* Cần có Hidden ID để Controller biết đang sửa sản phẩm nào *@
+                        <input type="hidden" asp-for="Id" />
+
+                        <div class="row">
+                            <div class="col-md-6 col-12 mb-4">
+                                <label asp-for="Name" class="form-label fw-bold">Product Name</label>
+                                <input asp-for="Name" class="form-control" placeholder="Enter product name..." />
+                                <span asp-validation-for="Name" class="text-danger small"></span>
+                            </div>
+
+                            <div class="col-md-6 col-12 mb-4">
+                                <label asp-for="Price" class="form-label fw-bold">Price ($)</label>
+                                <input asp-for="Price" class="form-control" type="number" step="0.01" />
+                                <span asp-validation-for="Price" class="text-danger small"></span>
+                            </div>
+
+                            <div class="col-md-6 col-12 mb-4">
+                                <label asp-for="CategoryId" class="form-label fw-bold">Category</label>
+                                <select asp-for="CategoryId" class="form-select" asp-items="ViewBag.Categories">
+                                    <option value="">-- Select Category --</option>
+                                </select>
+                                <span asp-validation-for="CategoryId" class="text-danger small"></span>
+                            </div>
+
+                            <div class="col-md-6 col-12 mb-4">
+                                <label class="form-label fw-bold">Product Image</label>
+                                <input type="file" name="ImageFile" class="form-control" accept="image/*" />
+                                <small class="text-muted">Leave blank to keep the current image.</small>
+                            </div>
+
+                            <div class="col-12 mb-4">
+                                <label asp-for="Description" class="form-label fw-bold">Description</label>
+                                <textarea asp-for="Description" class="form-control" rows="4" placeholder="Write a short description..."></textarea>
+                            </div>
+
+                            <div class="col-12 d-flex justify-content-between align-items-center border-top pt-4">
+                                <a asp-action="Index" class="btn btn-link text-decoration-none text-muted">Back to List</a>
+                                <button type="submit" class="btn btn-warning rounded-pill px-5 fw-bold shadow-sm">
+                                    Save Changes
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
