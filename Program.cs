@@ -1,12 +1,17 @@
-using WebLinkKienOTO.Repositories; 
+﻿using Microsoft.EntityFrameworkCore;
+using WebLinkKienOTO.Models;
+using WebLinkKienOTO.Repositories;
+
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddSingleton<IProductRepository, MockProductRepository>();
-builder.Services.AddSingleton<ICategoryRepository, MockCategoryRepository>();
-var app = builder.Build();
+builder.Services.AddScoped<IProductRepository, EFProductRepository>();
+builder.Services.AddScoped<ICategoryRepository, EFCategoryRepository>();
 
+var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
 {
@@ -15,10 +20,11 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+
 app.UseStaticFiles();
 
 app.UseRouting();
-
 app.UseAuthorization();
 
 app.MapControllerRoute(

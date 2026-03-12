@@ -16,62 +16,80 @@
         </div>
 
         <div class="row g-4">
-            @foreach (var product in Model)
+            @if (Model != null && Model.Any())
             {
-                <div class="col-lg-4 col-md-6 col-12">
-                    <div class="card border-0 shadow-sm rounded-4 h-100 overflow-hidden">
+                // BƯỚC 1: Khởi tạo biến đếm STT
+                int stt = 1;
 
-                        @* PHẦN HIỂN THỊ ẢNH *@
-                        @if (!string.IsNullOrEmpty(product.ImageUrl))
-                        {
-                            <img src="@product.ImageUrl" class="card-img-top" alt="@product.Name" style="height: 250px; object-fit: cover;">
-                        }
-                        else
-                        {
-                            <div class="card-img-top d-flex justify-content-center align-items-center" style="height: 250px; background: linear-gradient(135deg, #6c5ce7 0%, #ff7675 100%);">
-                                <i class="bi-image text-white" style="font-size: 3rem; opacity: 0.5;"></i>
-                            </div>
-                        }
+                @foreach (var product in Model)
+                {
+                    <div class="col-lg-4 col-md-6 col-12">
+                        <div class="card border-0 shadow-sm rounded-4 h-100 overflow-hidden">
 
-                        <div class="card-body p-4 d-flex flex-column">
-                            <div class="d-flex justify-content-between align-items-start mb-2">
-                                <h4 class="card-title fw-bold mb-0">@product.Name</h4>
-                                <span class="badge bg-secondary rounded-pill" style="font-size:0.7rem;">ID: @product.Id</span>
-                            </div>
+                            @if (!string.IsNullOrEmpty(product.ImageUrl))
+                            {
+                                <img src="@product.ImageUrl" class="card-img-top" alt="@product.Name" style="height: 250px; object-fit: cover;">
+                            }
+                            else
+                            {
+                                <div class="card-img-top d-flex justify-content-center align-items-center" style="height: 250px; background: linear-gradient(135deg, #6c5ce7 0%, #ff7675 100%);">
+                                    <i class="bi-image text-white" style="font-size: 3rem; opacity: 0.5;"></i>
+                                </div>
+                            }
 
-                            <p class="text-muted small mb-1">
-                                <i class="bi-tags me-1"></i> Category ID: @product.CategoryId
-                            </p>
+                            <div class="card-body p-4 d-flex flex-column">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <h4 class="card-title fw-bold mb-0">@product.Name</h4>
 
-                            @* XỬ LÝ MÔ TẢ AN TOÀN *@
-                            <p class="text-muted small mb-3 flex-grow-1">
-                                @if (!string.IsNullOrEmpty(product.Description))
-                                {
-                                    @(product.Description.Length > 60 ? product.Description.Substring(0, 60) + "..." : product.Description)
-                                }
-                                else
-                                {
-                                    <i class="text-muted">No description available.</i>
-                                }
-                            </p>
+                                    @* BƯỚC 2: Hiển thị STT thay vì product.Id *@
+                                    <span class="badge bg-primary rounded-pill" style="font-size:0.7rem;">STT: @(stt++)</span>
+                                </div>
 
-                            <h5 class="text-info fw-bold mb-4"><i class="bi-tag-fill me-1"></i>$@product.Price</h5>
+                                <p class="text-muted small mb-1">
+                                    <i class="bi-tags me-1"></i>
+                                    @(product.Category != null ? product.Category.Name : "No Category")
+                                </p>
 
-                            <div class="mt-auto">
-                                <a asp-action="Display" asp-route-id="@product.Id" class="btn btn-info text-white fw-bold w-100 rounded-pill mb-2 shadow-sm">
-                                    <i class="bi-eye me-1"></i> VIEW DETAILS
-                                </a>
-                                <div class="d-flex gap-2">
-                                    <a asp-action="Update" asp-route-id="@product.Id" class="btn btn-outline-success fw-bold flex-fill rounded-pill">
-                                        <i class="bi-pencil me-1"></i> EDIT
+                                <p class="text-muted small mb-3 flex-grow-1">
+                                    @if (!string.IsNullOrEmpty(product.Description))
+                                    {
+                                        @(product.Description.Length > 60 ? product.Description.Substring(0, 60) + "..." : product.Description)
+                                    }
+                                    else
+                                    {
+                                        <i class="text-muted">No description available.</i>
+                                    }
+                                </p>
+
+                                <h5 class="text-info fw-bold mb-4"><i class="bi-tag-fill me-1"></i>$@product.Price</h5>
+
+                                <div class="mt-auto">
+                                    <a asp-action="Display" asp-route-id="@product.Id" class="btn btn-info text-white fw-bold w-100 rounded-pill mb-2 shadow-sm">
+                                        <i class="bi-eye me-1"></i> VIEW DETAILS
                                     </a>
-                                    <a asp-action="Delete" asp-route-id="@product.Id" class="btn btn-outline-danger fw-bold flex-fill rounded-pill">
-                                        <i class="bi-trash me-1"></i> DELETE
-                                    </a>
+                                    <div class="d-flex gap-2">
+                                        @* LƯU Ý: asp-route-id vẫn phải giữ product.Id để gửi đúng lệnh về Controller *@
+                                        <a asp-action="Update" asp-route-id="@product.Id" class="btn btn-outline-success fw-bold flex-fill rounded-pill">
+                                            <i class="bi-pencil me-1"></i> EDIT
+                                        </a>
+                                        <a asp-action="Delete" asp-route-id="@product.Id" class="btn btn-outline-danger fw-bold flex-fill rounded-pill">
+                                            <i class="bi-trash me-1"></i> DELETE
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                }
+            }
+            else
+            {
+                <div class="col-12 text-center py-5">
+                    <div class="mb-3">
+                        <i class="bi-basket2 text-muted" style="font-size: 4rem; opacity: 0.3;"></i>
+                    </div>
+                    <h4 class="text-muted">No products found in database.</h4>
+                    <p>Click the "ADD NEW PRODUCT" button above to start adding your first item!</p>
                 </div>
             }
         </div>
